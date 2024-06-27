@@ -91,6 +91,13 @@ module Fastlane
                                        optional: true,
                                        default_value: ENV['AWS_SECRET_ACCESS_KEY'],
                                        default_value_dynamic: true),
+          FastlaneCore::ConfigItem.new(key: :session_token,
+                                       env_name: "S3_SESSION_TOKEN",
+                                       description: "AWS Session Token ",
+                                       sensitive: true,
+                                       optional: true,
+                                       default_value: ENV['AWS_SESSION_TOKEN'],
+                                       default_value_dynamic: true),
           FastlaneCore::ConfigItem.new(key: :bucket,
                                        env_name: "S3_BUCKET",
                                        description: "AWS bucket name",
@@ -147,6 +154,7 @@ module Fastlane
             # All of these are used to make Shenzhen\'s `ipa distribute:s3` command
             access_key: ENV["S3_ACCESS_KEY"],               # Required from user.
             secret_access_key: ENV["S3_SECRET_ACCESS_KEY"], # Required from user.
+            session_token: ENV["S3_SESSION_TOKEN"],         # Required from user.
             bucket: ENV["S3_BUCKET"],                       # Required from user.
             ipa: "AppName.ipa",                             # Optional if you use `ipa` to build
             dsym: "AppName.app.dSYM.zip",                   # Optional if you use `ipa` to build

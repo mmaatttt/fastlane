@@ -6769,6 +6769,7 @@ public func makeChangelogFromJenkins(fallbackChangelog: String = "",
    - s3Region: Name of the S3 region
    - s3AccessKey: S3 access key
    - s3SecretAccessKey: S3 secret access key
+   - s3SessionToken: S3 session token
    - s3Bucket: Name of the S3 bucket
    - s3ObjectPrefix: Prefix to be used on all objects uploaded to S3
    - s3SkipEncryption: Skip encryption of all objects uploaded to S3. WARNING: only enable this on S3 buckets with sufficiently restricted permissions and server-side encryption enabled. See https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingEncryption.html
@@ -6827,6 +6828,7 @@ public func match(type: String = matchfile.type,
                   s3Region: OptionalConfigValue<String?> = .fastlaneDefault(matchfile.s3Region),
                   s3AccessKey: OptionalConfigValue<String?> = .fastlaneDefault(matchfile.s3AccessKey),
                   s3SecretAccessKey: OptionalConfigValue<String?> = .fastlaneDefault(matchfile.s3SecretAccessKey),
+                  s3SessionToken: OptionalConfigValue<String?> = .fastlaneDefault(matchfile.s3SessionToken),
                   s3Bucket: OptionalConfigValue<String?> = .fastlaneDefault(matchfile.s3Bucket),
                   s3ObjectPrefix: OptionalConfigValue<String?> = .fastlaneDefault(matchfile.s3ObjectPrefix),
                   s3SkipEncryption: OptionalConfigValue<Bool> = .fastlaneDefault(matchfile.s3SkipEncryption),
@@ -6883,6 +6885,7 @@ public func match(type: String = matchfile.type,
     let s3RegionArg = s3Region.asRubyArgument(name: "s3_region", type: nil)
     let s3AccessKeyArg = s3AccessKey.asRubyArgument(name: "s3_access_key", type: nil)
     let s3SecretAccessKeyArg = s3SecretAccessKey.asRubyArgument(name: "s3_secret_access_key", type: nil)
+    let s3SessionTokenArg = s3SessionToken.asRubyArgument(name: "s3_session_token", type: nil)
     let s3BucketArg = s3Bucket.asRubyArgument(name: "s3_bucket", type: nil)
     let s3ObjectPrefixArg = s3ObjectPrefix.asRubyArgument(name: "s3_object_prefix", type: nil)
     let s3SkipEncryptionArg = s3SkipEncryption.asRubyArgument(name: "s3_skip_encryption", type: nil)
@@ -6938,6 +6941,7 @@ public func match(type: String = matchfile.type,
                                           s3RegionArg,
                                           s3AccessKeyArg,
                                           s3SecretAccessKeyArg,
+                                          s3SessionTokenArg,
                                           s3BucketArg,
                                           s3ObjectPrefixArg,
                                           s3SkipEncryptionArg,
@@ -7004,6 +7008,7 @@ public func match(type: String = matchfile.type,
    - s3Region: Name of the S3 region
    - s3AccessKey: S3 access key
    - s3SecretAccessKey: S3 secret access key
+   - s3SessionToken: S3 session token
    - s3Bucket: Name of the S3 bucket
    - s3ObjectPrefix: Prefix to be used on all objects uploaded to S3
    - s3SkipEncryption: Skip encryption of all objects uploaded to S3. WARNING: only enable this on S3 buckets with sufficiently restricted permissions and server-side encryption enabled. See https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingEncryption.html
@@ -7066,6 +7071,7 @@ public func matchNuke(type: String = "development",
                       s3Region: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                       s3AccessKey: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                       s3SecretAccessKey: OptionalConfigValue<String?> = .fastlaneDefault(nil),
+                      s3SessionToken: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                       s3Bucket: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                       s3ObjectPrefix: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                       s3SkipEncryption: OptionalConfigValue<Bool> = .fastlaneDefault(false),
@@ -7121,7 +7127,8 @@ public func matchNuke(type: String = "development",
     let skipGoogleCloudAccountConfirmationArg = skipGoogleCloudAccountConfirmation.asRubyArgument(name: "skip_google_cloud_account_confirmation", type: nil)
     let s3RegionArg = s3Region.asRubyArgument(name: "s3_region", type: nil)
     let s3AccessKeyArg = s3AccessKey.asRubyArgument(name: "s3_access_key", type: nil)
-    let s3SecretAccessKeyArg = s3SecretAccessKey.asRubyArgument(name: "s3_secret_access_key", type: nil)
+    let s3SecretAccessKeyArg: RubyCommand.Argument? = s3SecretAccessKey.asRubyArgument(name: "s3_secret_access_key", type: nil)
+    let s3SessionTokenArg: RubyCommand.Argument? = s3SessionToken.asRubyArgument(name: "s3_session_token", type: nil)
     let s3BucketArg = s3Bucket.asRubyArgument(name: "s3_bucket", type: nil)
     let s3ObjectPrefixArg = s3ObjectPrefix.asRubyArgument(name: "s3_object_prefix", type: nil)
     let s3SkipEncryptionArg = s3SkipEncryption.asRubyArgument(name: "s3_skip_encryption", type: nil)
@@ -7177,6 +7184,7 @@ public func matchNuke(type: String = "development",
                                           s3RegionArg,
                                           s3AccessKeyArg,
                                           s3SecretAccessKeyArg,
+                                          s3SessionTokenArg,
                                           s3BucketArg,
                                           s3ObjectPrefixArg,
                                           s3SkipEncryptionArg,
@@ -9137,6 +9145,7 @@ public func s3(ipa: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                versionFileName: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                accessKey: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                secretAccessKey: OptionalConfigValue<String?> = .fastlaneDefault(nil),
+               sessionToken: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                bucket: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                region: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                path: String = "v{CFBundleShortVersionString}_b{CFBundleVersion}/",
@@ -9154,6 +9163,7 @@ public func s3(ipa: OptionalConfigValue<String?> = .fastlaneDefault(nil),
     let versionFileNameArg = versionFileName.asRubyArgument(name: "version_file_name", type: nil)
     let accessKeyArg = accessKey.asRubyArgument(name: "access_key", type: nil)
     let secretAccessKeyArg = secretAccessKey.asRubyArgument(name: "secret_access_key", type: nil)
+    let sessionTokenArg = secretAccessKey.asRubyArgument(name: "session_token", type: nil)
     let bucketArg = bucket.asRubyArgument(name: "bucket", type: nil)
     let regionArg = region.asRubyArgument(name: "region", type: nil)
     let pathArg = RubyCommand.Argument(name: "path", value: path, type: nil)
@@ -9170,6 +9180,7 @@ public func s3(ipa: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                                           versionFileNameArg,
                                           accessKeyArg,
                                           secretAccessKeyArg,
+                                          sessionTokenArg,
                                           bucketArg,
                                           regionArg,
                                           pathArg,
@@ -11310,6 +11321,7 @@ public func swiftlint(mode: String = "lint",
    - s3Region: Name of the S3 region
    - s3AccessKey: S3 access key
    - s3SecretAccessKey: S3 secret access key
+   - s3SessionTokenKey: S3 session token
    - s3Bucket: Name of the S3 bucket
    - s3ObjectPrefix: Prefix to be used on all objects uploaded to S3
    - s3SkipEncryption: Skip encryption of all objects uploaded to S3. WARNING: only enable this on S3 buckets with sufficiently restricted permissions and server-side encryption enabled. See https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingEncryption.html
@@ -11368,6 +11380,7 @@ public func syncCodeSigning(type: String = "development",
                             s3Region: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                             s3AccessKey: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                             s3SecretAccessKey: OptionalConfigValue<String?> = .fastlaneDefault(nil),
+                            s3SessionTokenKey: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                             s3Bucket: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                             s3ObjectPrefix: OptionalConfigValue<String?> = .fastlaneDefault(nil),
                             s3SkipEncryption: OptionalConfigValue<Bool> = .fastlaneDefault(false),
@@ -11424,6 +11437,7 @@ public func syncCodeSigning(type: String = "development",
     let s3RegionArg = s3Region.asRubyArgument(name: "s3_region", type: nil)
     let s3AccessKeyArg = s3AccessKey.asRubyArgument(name: "s3_access_key", type: nil)
     let s3SecretAccessKeyArg = s3SecretAccessKey.asRubyArgument(name: "s3_secret_access_key", type: nil)
+    let s3SessionTokenArg = s3SecretAccessKey.asRubyArgument(name: "s3_sesion_token_key", type: nil)
     let s3BucketArg = s3Bucket.asRubyArgument(name: "s3_bucket", type: nil)
     let s3ObjectPrefixArg = s3ObjectPrefix.asRubyArgument(name: "s3_object_prefix", type: nil)
     let s3SkipEncryptionArg = s3SkipEncryption.asRubyArgument(name: "s3_skip_encryption", type: nil)
@@ -11479,6 +11493,7 @@ public func syncCodeSigning(type: String = "development",
                                           s3RegionArg,
                                           s3AccessKeyArg,
                                           s3SecretAccessKeyArg,
+                                          s3SessionTokenArg,
                                           s3BucketArg,
                                           s3ObjectPrefixArg,
                                           s3SkipEncryptionArg,

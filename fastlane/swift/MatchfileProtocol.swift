@@ -86,6 +86,9 @@ public protocol MatchfileProtocol: AnyObject {
     /// S3 secret access key
     var s3SecretAccessKey: String? { get }
 
+    /// S3 session token
+    var s3SessionToken: String? { get }
+
     /// Name of the S3 bucket
     var s3Bucket: String? { get }
 
@@ -197,6 +200,7 @@ public extension MatchfileProtocol {
     var s3Region: String? { return nil }
     var s3AccessKey: String? { return nil }
     var s3SecretAccessKey: String? { return nil }
+    var s3SessionToken: String? { return nil }
     var s3Bucket: String? { return nil }
     var s3ObjectPrefix: String? { return nil }
     var s3SkipEncryption: Bool { return false }

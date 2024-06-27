@@ -458,7 +458,7 @@ Accessing Google Cloud Storage from your CI system requires you to provide the `
 
 #### Amazon S3 Storage access
 
-Accessing Amazon S3 Storage from your CI system requires you to provide the `s3_region`, `s3_access_key`, `s3_secret_access_key` and `s3_bucket` options (or environment variables), with keys that has read access to the bucket.
+Accessing Amazon S3 Storage from your CI system requires you to provide the `s3_region`, `s3_access_key`, `s3_secret_access_key` and `s3_bucket` options (or environment variables), with keys that has read access to the bucket. `s3_session_token` is optional for usage with temporary credentials.
 
 ### Nuke
 
